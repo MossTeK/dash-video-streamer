@@ -94,34 +94,64 @@ def run():
         print("\nHost Connections: ")
         for host in net.hosts:
             print(f"{host.name} -> {host.IP()}")
-
-        # Start a simple Python web server on h1, h2, and h3
-        print("Starting a simple Python web server on h1, h2, and h3...")
-        servers = [net.get('h1'), net.get('h2'), net.get('h3')]
-        for server in servers:
-            server.cmd(f'echo "<html><body><h1>Hello from {server.name}</h1></body></html>" > index.html')
-            server.cmd('python3 -m http.server 80 &')
-            print(f"  - Web server started on {server.name} at {server.IP()}")
         
-        # Give servers time to start
-        time.sleep(2)
+        # Start a simple Python web server on h1 to act as the backend
+        print("\nStarting a simple Python web server on h1...")
+        h1 = net.get('h1')
+        h1.cmd('mkdir -p /var/www/html')
+        h1.cmd(f'echo "<html><body><h1>Hello from h1 (Central Server)</h1></body></html>" > /var/www/html/bbb.mpd')
+        h1.cmd('python3 -m http.server 80 -d /var/www/html &')
+        print(f"  - Web server started on h1 at {h1.IP()}")
+
+        # Configure and start Nginx on h2 and h3
+        print("\nConfiguring and starting Nginx on h2 and h3...")
+        h2 = net.get('h2')
+        h3 = net.get('h3')
+
+        nginx_conf = """
+server {
+    listen 80;
+    root /var/www/html;
+    index bbb.mpd;
+}
+"""
+
+
+        for host in [h2, h3]:
+            print(f"  - Installing Nginx on {host.name}...")
+            host.cmd('apt-get update && apt-get install -y nginx')
+            
+            host.cmd('mkdir -p /etc/nginx/sites-available')
+            host.cmd('mkdir -p /var/www/html')
+            
+            print(f"  - Creating Nginx configuration for {host.name}...")
+            host.cmd(f'echo "{nginx_conf}" > /etc/nginx/sites-available/default')
+
+            print(f"  - Enabling Nginx site on {host.name}...")
+            host.cmd('ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default')
+            
+            host.cmd(f'echo "<html><body><h1>Hello from {host.name} (Edge Server)</h1></body></html>" > /var/www/html/bbb.mpd')
+            
+            print(f"  - Starting Nginx on {host.name}...")
+            host.cmd('nginx &')
+        
+        time.sleep(5)
         
         print("\nTesting Connectivity (pingAll)...")
         net.pingAll()
 
         print("\nTesting file transfer over port 80...")
         client1 = net.get('h4')
+        client2 = net.get('h5')
         
-        # Test client1 (h4) to central_server (h1)
-        print(f"  - Client {client1.name} (h4) fetching from Central Server {servers[0].name} (h1)...")
-        result1 = client1.cmd('wget -O - h1')
-        print(f"    Result: {result1.strip()}")
-
-        # Test client1 (h4) to edge_server2 (h3)
-        print(f"  - Client {client1.name} (h4) fetching from Edge Server {servers[2].name} (h3)...")
-        result2 = client1.cmd('wget -O - h3')
+        print(f"  - Client {client1.name} (h4) fetching from its local Edge Server (h2)...")
+        result2 = client1.cmd('wget -O - h2/bbb.mpd')
         print(f"    Result: {result2.strip()}")
 
+        print(f"  - Client {client2.name} (h5) fetching from its local Edge Server (h3)...")
+        result3 = client2.cmd('wget -O - h3/bbb.mpd')
+        print(f"    Result: {result3.strip()}")
+        
         print("\nStarting Mininet CLI...")
         CLI(net)
     

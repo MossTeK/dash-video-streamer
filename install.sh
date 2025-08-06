@@ -2,7 +2,7 @@
 
 #install dependencies
 sudo apt update && sudo apt upgrade -y
-sudo apt install -y python3 python3-pip python3-ryu nginx setup help2man git net-tools
+sudo apt install -y python3 python3-pip python3-ryu nginx help2man git net-tools open-vm-tools-desktop openvswitch-switch
 git clone https://github.com/mininet/mininet
 cd mininet
 git fetch
