@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DASH.js Video Player - {SERVER_NAME}</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f0f0f0; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        video { width: 100%; height: auto; border-radius: 4px; }
+        h1 { color: #333; }
+        p { color: #666; }
+        .note { background-color: #e0f7fa; border-left: 5px solid #00bcd4; padding: 10px; margin-top: 20px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DASH.js Video Player - Serving from {SERVER_NAME}</h1>
+        <p>This page hosts a DASH.js player. Ensure 'bbb.mpd' and video segments are in '/var/www/html/'.</p>
+        <video data-dashjs-player autoplay controls src="bbb.mpd"></video>
+        <div class="note">
+            <strong>Important:</strong>
+            <p>1. Make sure you have copied <code>dash.all.min.js</code> into <code>/var/www/html/</code> on this host.</p>
+            <p>2. The <code>bbb.mpd</code> file and its corresponding video segments (e.g., 'video_1.mp4', 'video_2.mp4', 'video_3.mp4') must also be in <code>/var/www/html/</code>.</p>
+            <p>You can access this player by navigating to <code>http://{HOST_IP}/</code> in a browser from a client host (e.g., using <code>h4 wget http://h2/index.html</code> or <code>h4 lynx http://h2/</code> if lynx is installed).</p>
+        </div>
+    </div>
+    <script src="dash.all.min.js"></script>
+</body>
+</html>
+
