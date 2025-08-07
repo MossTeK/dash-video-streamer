@@ -1,29 +1,158 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>DASH.js Video Player - {SERVER_NAME}</title>
+    <title>DASH.js Video Player - SDN CDN Testbed</title>
+    <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
     <style>
-        body { font-family: sans-serif; margin: 20px; background-color: #f0f0f0; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        video { width: 100%; height: auto; border-radius: 4px; }
-        h1 { color: #333; }
-        p { color: #666; }
-        .note { background-color: #e0f7fa; border-left: 5px solid #00bcd4; padding: 10px; margin-top: 20px; border-radius: 4px; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        video {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 0;
+            font-size: 24px;
+        }
+        h2 {
+            color: #555;
+            font-size: 18px;
+            margin-top: 20px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 5px;
+        }
+        .stats-dashboard {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        .stats-item {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #eee;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .stats-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .stats-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>DASH.js Video Player - Serving from {SERVER_NAME}</h1>
-        <p>This page hosts a DASH.js player. Ensure 'bbb.mpd' and video segments are in '/var/www/html/'.</p>
-        <video data-dashjs-player autoplay controls src="bbb.mpd"></video>
-        <div class="note">
-            <strong>Important:</strong>
-            <p>1. Make sure you have copied <code>dash.all.min.js</code> into <code>/var/www/html/</code> on this host.</p>
-            <p>2. The <code>bbb.mpd</code> file and its corresponding video segments (e.g., 'video_1.mp4', 'video_2.mp4', 'video_3.mp4') must also be in <code>/var/www/html/</code>.</p>
-            <p>You can access this player by navigating to <code>http://{HOST_IP}/</code> in a browser from a client host (e.g., using <code>h4 wget http://h2/index.html</code> or <code>h4 lynx http://h2/</code> if lynx is installed).</p>
+        <h1>DASH.js Video Player - SDN CDN Testbed</h1>
+        <video id="videoPlayer" controls></video>
+
+        <h2>Player Statistics</h2>
+        <div id="stats-dashboard" class="stats-dashboard">
+            <div class="stats-item">
+                <div class="stats-label">Bitrate (kbps)</div>
+                <div id="bitrate" class="stats-value">N/A</div>
+            </div>
+            <div class="stats-item">
+                <div class="stats-label">Buffer Level (s)</div>
+                <div id="bufferLevel" class="stats-value">N/A</div>
+            </div>
+            <div class="stats-item">
+                <div class="stats-label">Dropped Frames</div>
+                <div id="droppedFrames" class="stats-value">N/A</div>
+            </div>
+            <div class="stats-item">
+                <div class="stats-label">Download Rate (Mbps)</div>
+                <div id="downloadRate" class="stats-value">N/A</div>
+            </div>
         </div>
     </div>
-    <script src="dash.all.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var url = "bbb.mpd";
+            var player = dashjs.MediaPlayer().create();
+            var video = document.querySelector("#videoPlayer");
+
+            player.initialize(video, url, true);
+            
+            // Set up event listeners to capture and display player statistics
+            player.on(dashjs.MediaPlayer.events.METRICS_CHANGED, function() {
+                var metrics = player.get=MetricsFor("video");
+                if (metrics) {
+                    var currentBitrate = metrics.getCurrentTrack.bitrate;
+                    document.getElementById('bitrate').textContent = (currentBitrate / 1000).toFixed(2);
+                }
+            });
+
+            player.on(dashjs.MediaPlayer.events.QUALITY_CHANGE_RENDERED, function(e) {
+                // You can add more detailed metrics here.
+                var metrics = player.getMetricsFor('video');
+                if (metrics) {
+                    var bufferLevel = metrics.BufferLevel.length > 0 ? metrics.BufferLevel[metrics.BufferLevel.length-1].s : "N/A";
+                    document.getElementById('bufferLevel').textContent = bufferLevel !== "N/A" ? parseFloat(bufferLevel).toFixed(2) : "N/A";
+                }
+            });
+
+            player.on(dashjs.MediaPlayer.events.FRAGMENT_LOADING_COMPLETED, function(e) {
+                var metrics = player.getMetricsFor('video');
+                if (metrics && metrics.requests.length > 0) {
+                    var lastRequest = metrics.requests[metrics.requests.length - 1];
+                    if (lastRequest.mediaType === 'video' && lastRequest.response.data) {
+                        var downloadTime = lastRequest.tfinish - lastRequest.tresponse;
+                        var downloadRate = (lastRequest.response.data.byteLength * 8) / (downloadTime / 1000) / 1000000; // Mbps
+                        document.getElementById('downloadRate').textContent = downloadRate.toFixed(2);
+                    }
+                }
+            });
+            
+            // Note: Dropped frames metric requires the browser to support the `droppedFrames` property
+            // which may not be consistently available in all environments.
+            function updateDroppedFrames() {
+                if (video.webkitDroppedFrameCount !== undefined) {
+                    document.getElementById('droppedFrames').textContent = video.webkitDroppedFrameCount;
+                } else if (video.mozDecodedFrames !== undefined) {
+                    // Firefox equivalent, if available
+                    document.getElementById('droppedFrames').textContent = video.mozDecodedFrames - video.mozPaintedFrames;
+                } else {
+                    document.getElementById('droppedFrames').textContent = "N/A";
+                }
+                requestAnimationFrame(updateDroppedFrames);
+            }
+            updateDroppedFrames();
+
+        });
+    </script>
 </body>
 </html>
 
