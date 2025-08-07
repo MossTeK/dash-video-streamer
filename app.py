@@ -96,13 +96,19 @@ def configure_and_start_servers(net):
         host.cmd('mkdir -p /etc/nginx/sites-available')
         generate_video_files(host)
         
+        # Corrected Nginx config to avoid the redirection loop
         nginx_conf = f"""
-server {{
+server {
     listen 80;
     root /var/www/html;
-    index bbb.mpd;
-}}
-"""
+    index index.html bbb.mpd;  # Add index.html to the index list
+    
+    location / {
+        try_files $uri $uri/ =404; # Look for the URI first, then a directory, then return 404
+    }
+}
+
+        """
         host.cmd(f'echo "{nginx_conf}" > /etc/nginx/sites-available/default')
         host.cmd('ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default')
         host.cmd('nginx')

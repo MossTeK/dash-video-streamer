@@ -94,3 +94,195 @@ rtt min/avg/max/mdev = 2.239/2.516/2.744/0.164 ms
 File download from h1 (h4 client, redirected by SDN):
 
 
+SCENARIO 1: Central Server Access (bypassing SDN) - 2025-08-07 01:19:44.564376
+Latency from h4 to h1:
+PING 10.0.0.1 (10.0.0.1) 56(84) bytes of data.
+From 10.0.1.100 icmp_seq=1 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=2 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=3 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=4 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=5 Destination Host Unreachable
+
+--- 10.0.0.1 ping statistics ---
+5 packets transmitted, 0 received, +5 errors, 100% packet loss, time 4093ms
+pipe 4
+
+File download from h1 (h4 client):
+
+
+SCENARIO 2: Edge Server Access (with SDN redirection) - 2025-08-07 01:19:53.781655
+Latency from h4 to h2:
+PING 10.0.1.1 (10.0.1.1) 56(84) bytes of data.
+64 bytes from 10.0.1.1: icmp_seq=1 ttl=64 time=3.18 ms
+64 bytes from 10.0.1.1: icmp_seq=2 ttl=64 time=0.361 ms
+64 bytes from 10.0.1.1: icmp_seq=3 ttl=64 time=0.064 ms
+64 bytes from 10.0.1.1: icmp_seq=4 ttl=64 time=0.061 ms
+64 bytes from 10.0.1.1: icmp_seq=5 ttl=64 time=0.060 ms
+
+--- 10.0.1.1 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4038ms
+rtt min/avg/max/mdev = 0.060/0.744/3.175/1.220 ms
+
+File download from h1 (h4 client, redirected by SDN):
+
+
+SCENARIO 1: Central Server Access (bypassing SDN) - 2025-08-07 01:25:12.916091
+Latency from h4 to h1:
+PING 10.0.0.1 (10.0.0.1) 56(84) bytes of data.
+From 10.0.1.100 icmp_seq=1 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=2 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=3 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=4 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=5 Destination Host Unreachable
+
+--- 10.0.0.1 ping statistics ---
+5 packets transmitted, 0 received, +5 errors, 100% packet loss, time 4093ms
+pipe 4
+
+File download from h1 (h4 client):
+
+
+SCENARIO 2: Edge Server Access (with SDN redirection) - 2025-08-07 01:25:22.133535
+Latency from h4 to h2:
+PING 10.0.1.1 (10.0.1.1) 56(84) bytes of data.
+64 bytes from 10.0.1.1: icmp_seq=1 ttl=64 time=2.69 ms
+64 bytes from 10.0.1.1: icmp_seq=2 ttl=64 time=0.478 ms
+64 bytes from 10.0.1.1: icmp_seq=3 ttl=64 time=0.084 ms
+64 bytes from 10.0.1.1: icmp_seq=4 ttl=64 time=0.064 ms
+64 bytes from 10.0.1.1: icmp_seq=5 ttl=64 time=0.057 ms
+
+--- 10.0.1.1 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4038ms
+rtt min/avg/max/mdev = 0.057/0.674/2.690/1.020 ms
+
+File download from h1 (h4 client, redirected by SDN):
+
+
+SCENARIO 1: Central Server Access (bypassing SDN) - 2025-08-07 01:31:59.972970
+Latency from h4 to h1:
+PING 10.0.0.1 (10.0.0.1) 56(84) bytes of data.
+From 10.0.1.100 icmp_seq=1 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=2 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=3 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=4 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=5 Destination Host Unreachable
+
+--- 10.0.0.1 ping statistics ---
+5 packets transmitted, 0 received, +5 errors, 100% packet loss, time 4076ms
+pipe 4
+
+File download from h1 (h4 client):
+
+
+SCENARIO 2: Edge Server Access (with SDN redirection) - 2025-08-07 01:32:09.173512
+Latency from h4 to h2:
+PING 10.0.1.1 (10.0.1.1) 56(84) bytes of data.
+64 bytes from 10.0.1.1: icmp_seq=1 ttl=64 time=5.10 ms
+64 bytes from 10.0.1.1: icmp_seq=2 ttl=64 time=0.455 ms
+64 bytes from 10.0.1.1: icmp_seq=3 ttl=64 time=0.110 ms
+64 bytes from 10.0.1.1: icmp_seq=4 ttl=64 time=0.098 ms
+64 bytes from 10.0.1.1: icmp_seq=5 ttl=64 time=0.079 ms
+
+--- 10.0.1.1 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4038ms
+rtt min/avg/max/mdev = 0.079/1.169/5.103/1.971 ms
+
+File download from h1 (h4 client, redirected by SDN):
+
+
+SCENARIO 1: Central Server Access (bypassing SDN) - 2025-08-07 01:35:22.853896
+Latency from h4 to h1:
+PING 10.0.0.1 (10.0.0.1) 56(84) bytes of data.
+From 10.0.1.100 icmp_seq=1 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=2 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=3 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=4 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=5 Destination Host Unreachable
+
+--- 10.0.0.1 ping statistics ---
+5 packets transmitted, 0 received, +5 errors, 100% packet loss, time 4075ms
+pipe 4
+
+File download from h1 (h4 client):
+
+
+SCENARIO 2: Edge Server Access (with SDN redirection) - 2025-08-07 01:35:32.053496
+Latency from h4 to h2:
+PING 10.0.1.1 (10.0.1.1) 56(84) bytes of data.
+64 bytes from 10.0.1.1: icmp_seq=1 ttl=64 time=4.22 ms
+64 bytes from 10.0.1.1: icmp_seq=2 ttl=64 time=0.484 ms
+64 bytes from 10.0.1.1: icmp_seq=3 ttl=64 time=0.085 ms
+64 bytes from 10.0.1.1: icmp_seq=4 ttl=64 time=0.076 ms
+64 bytes from 10.0.1.1: icmp_seq=5 ttl=64 time=0.076 ms
+
+--- 10.0.1.1 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4037ms
+rtt min/avg/max/mdev = 0.076/0.989/4.224/1.625 ms
+
+File download from h1 (h4 client, redirected by SDN):
+
+
+SCENARIO 1: Central Server Access (bypassing SDN) - 2025-08-07 01:40:06.533018
+Latency from h4 to h1:
+PING 10.0.0.1 (10.0.0.1) 56(84) bytes of data.
+From 10.0.1.100 icmp_seq=1 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=2 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=3 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=4 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=5 Destination Host Unreachable
+
+--- 10.0.0.1 ping statistics ---
+5 packets transmitted, 0 received, +5 errors, 100% packet loss, time 4077ms
+pipe 4
+
+File download from h1 (h4 client):
+
+
+SCENARIO 2: Edge Server Access (with SDN redirection) - 2025-08-07 01:40:15.733528
+Latency from h4 to h2:
+PING 10.0.1.1 (10.0.1.1) 56(84) bytes of data.
+64 bytes from 10.0.1.1: icmp_seq=1 ttl=64 time=2.58 ms
+64 bytes from 10.0.1.1: icmp_seq=2 ttl=64 time=0.532 ms
+64 bytes from 10.0.1.1: icmp_seq=3 ttl=64 time=0.086 ms
+64 bytes from 10.0.1.1: icmp_seq=4 ttl=64 time=0.084 ms
+64 bytes from 10.0.1.1: icmp_seq=5 ttl=64 time=0.076 ms
+
+--- 10.0.1.1 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4038ms
+rtt min/avg/max/mdev = 0.076/0.670/2.575/0.968 ms
+
+File download from h1 (h4 client, redirected by SDN):
+
+
+SCENARIO 1: Central Server Access (bypassing SDN) - 2025-08-07 01:42:41.784435
+Latency from h4 to h1:
+PING 10.0.0.1 (10.0.0.1) 56(84) bytes of data.
+From 10.0.1.100 icmp_seq=1 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=2 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=3 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=4 Destination Host Unreachable
+From 10.0.1.100 icmp_seq=5 Destination Host Unreachable
+
+--- 10.0.0.1 ping statistics ---
+5 packets transmitted, 0 received, +5 errors, 100% packet loss, time 4089ms
+pipe 4
+
+File download from h1 (h4 client):
+
+
+SCENARIO 2: Edge Server Access (with SDN redirection) - 2025-08-07 01:42:50.997542
+Latency from h4 to h2:
+PING 10.0.1.1 (10.0.1.1) 56(84) bytes of data.
+64 bytes from 10.0.1.1: icmp_seq=1 ttl=64 time=5.23 ms
+64 bytes from 10.0.1.1: icmp_seq=2 ttl=64 time=0.355 ms
+64 bytes from 10.0.1.1: icmp_seq=3 ttl=64 time=0.072 ms
+64 bytes from 10.0.1.1: icmp_seq=4 ttl=64 time=0.066 ms
+64 bytes from 10.0.1.1: icmp_seq=5 ttl=64 time=0.060 ms
+
+--- 10.0.1.1 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4037ms
+rtt min/avg/max/mdev = 0.060/1.155/5.226/2.038 ms
+
+File download from h1 (h4 client, redirected by SDN):
+
+
